@@ -20,7 +20,8 @@
         font-family: Arial, Helvetica, sans-serif;
         color: white;
       }
-      #game_over {
+      #game_over,
+      #timer_container_string {
         display: none;
       }
     </style>
@@ -29,7 +30,10 @@
     <div id="timer_container">
       <h3>Don't touch you mouse, dont touch your keyboard</h3>
       <h1>Just Do Nothing</h1>
-      <h2>You have been doing nothing for <span id="timer">0 seconds</span></h2>
+      <h2 id="start_game_string">The game will start after 5 seconds</h2>
+      <h2 id="timer_container_string">
+        You have been doing nothing for <span id="timer">0 seconds</span>
+      </h2>
     </div>
     <div id="game_over">
       <h1>I warned you...</h1>
@@ -70,27 +74,35 @@
         window.location.href = "https://www.scientology.ie/subscribe/";
       }
 
-      function resetTimer() {
-        // startTime = new Date();
-        let timerContainer = document.getElementById("timer_container");
+      function setGameOver() {
         timerContainer.style.display = "none";
-        let gameOver = document.getElementById("game_over");
         gameOver.style.display = "block";
         setTimeout(loadNewPage, 2500);
       }
 
       function startGame() {
-        document.addEventListener("mousemove", resetTimer);
-        document.addEventListener("click", resetTimer);
-        document.addEventListener("dblclick", resetTimer);
-        document.addEventListener("keydown", resetTimer);
+        startTime = new Date();
+        timerContainerString.style.display = "block";
+        startGameString.style.display = "none";
+
+        document.addEventListener("mousemove", setGameOver);
+        document.addEventListener("click", setGameOver);
+        document.addEventListener("dblclick", setGameOver);
+        document.addEventListener("keydown", setGameOver);
+
+        setInterval(updateTimer, 1000);
       }
 
       let startTime = new Date();
 
       let timerElement = document.getElementById("timer");
+      let timerContainer = document.getElementById("timer_container");
+      let startGameString = document.getElementById("start_game_string");
+      let timerContainerString = document.getElementById(
+        "timer_container_string"
+      );
+      let gameOver = document.getElementById("game_over");
 
-      setInterval(updateTimer, 1000);
       setTimeout(startGame, 5000);
     </script>
   </body>
