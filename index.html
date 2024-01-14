@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Do Nothing</title>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #333;
+      }
+
+      #timer_container,
+      #game_over {
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        color: white;
+      }
+      #game_over {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="timer_container">
+      <h3>Don't touch you mouse, dont touch your keyboard</h3>
+      <h1>Just Do Nothing</h1>
+      <h2>You have been doing nothing for <span id="timer">0 seconds</span></h2>
+    </div>
+    <div id="game_over">
+      <h1>I warned you...</h1>
+    </div>
+
+    <script>
+      function updateTimer() {
+        let now = new Date();
+        let elapsedTime = now - startTime;
+
+        let days = Math.floor(elapsedTime / (1000 * 60 * 60 * 24));
+        let hours = Math.floor(
+          (elapsedTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        let minutes = Math.floor(
+          (elapsedTime % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        let seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+
+        let timeComponents = [];
+        if (days > 0) {
+          timeComponents.push(`${days} day${days > 1 ? "s" : ""}`);
+        }
+        if (hours > 0) {
+          timeComponents.push(`${hours} hour${hours > 1 ? "s" : ""}`);
+        }
+        if (minutes > 0) {
+          timeComponents.push(`${minutes} minute${minutes > 1 ? "s" : ""}`);
+        }
+        if (seconds > 0) {
+          timeComponents.push(`${seconds} second${seconds > 1 ? "s" : ""}`);
+        }
+
+        timerElement.innerHTML = timeComponents.join(", ") || "0 seconds";
+      }
+
+      function loadNewPage() {
+        window.location.href = "https://www.scientology.ie/subscribe/";
+      }
+
+      function resetTimer() {
+        // startTime = new Date();
+        let timerContainer = document.getElementById("timer_container");
+        timerContainer.style.display = "none";
+        let gameOver = document.getElementById("game_over");
+        gameOver.style.display = "block";
+        setTimeout(loadNewPage, 2500);
+      }
+
+      function startGame() {
+        document.addEventListener("mousemove", resetTimer);
+        document.addEventListener("click", resetTimer);
+        document.addEventListener("dblclick", resetTimer);
+        document.addEventListener("keydown", resetTimer);
+      }
+
+      let startTime = new Date();
+
+      let timerElement = document.getElementById("timer");
+
+      setInterval(updateTimer, 1000);
+      setTimeout(startGame, 5000);
+    </script>
+  </body>
+</html>
